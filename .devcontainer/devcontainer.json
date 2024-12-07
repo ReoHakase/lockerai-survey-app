@@ -1,0 +1,80 @@
+{
+  "name": "lockerai-survey-app",
+  // DockerfileまたはDocker Composeファイルを使用することもできます。詳細については、https://containers.dev/guide/dockerfileを参照してください。
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "formulahendry.auto-complete-tag",
+        "adam-bender.commit-message-editor",
+        "mikestead.dotenv",
+        "dbaeumer.vscode-eslint",
+        "github.copilot",
+        "eamodio.gitlens",
+        "vincaslt.highlight-matching-tag",
+        "wix.vscode-import-cost",
+        "visualstudioexptteam.vscodeintellicode",
+        "orta.vscode-jest",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "prisma.prisma",
+        "stylelint.vscode-stylelint",
+        "oderwat.indent-rainbow",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "DavidAnson.vscode-markdownlint",
+        "emmanuelbeziat.vscode-great-icons",
+        "chakra-ui.panda-css-vscode",
+        "IronGeek.vscode-env",
+        "github.vscode-github-actions",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-pull-request-github",
+        "unifiedjs.vscode-mdx",
+        "csstools.postcss",
+        "vitest.explorer",
+        "ms-playwright.playwright"
+      ]
+    }
+  },
+
+  // Devコンテナに追加する機能。詳細については、https://containers.dev/featuresを参照してください。
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/NicoVIII/devcontainer-features/pnpm:2": {
+      "version": "8.15.5"
+    },
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+    "ghcr.io/devcontainers/features/node:1.6.1": {
+      "nodeGypDependencies": true,
+      "version": "20.11.1",
+      "nvmVersion": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/act:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/exa:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/fish-apt-get:1": {},
+    "ghcr.io/devcontainers-contrib/features/neofetch:1": {},
+    "ghcr.io/devcontainers-contrib/features/starship:1": {
+      "version": "latest"
+    }
+  },
+
+  // 'forwardPorts'を使用して、コンテナ内のポートをローカルで利用できるようにします。
+  "forwardPorts": [3000, 6000, 6006, 6007],
+
+  // コンテナが作成された後に実行するコマンドを指定します。
+  // コンテナに接続した時に使用されるユーザ名は、'remoteUser'プロパティで指定されたものもしくはコンテナイメージの設定を引き継ぎます。
+  "postCreateCommand": "pnpm config set store-dir /home/vscode/.local/share/pnpm/store && pnpm install"
+
+  // ツール固有のプロパティを設定します。
+  // "customizations": {},
+
+  // rootとして接続する場合はコメントを解除します。詳細については、https://aka.ms/dev-containers-non-rootを参照してください。
+  // "remoteUser": "root"
+}

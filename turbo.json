@@ -1,0 +1,40 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["NODE_ENV"],
+  "tasks": {
+    "start": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "env": ["RESAS_API_KEY"],
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"],
+      "env": ["VERCEL_URL", "BASE_URL", "PORT"]
+    },
+    "test": {
+      "outputs": [],
+      "env": []
+    },
+    "sb:build": {
+      "dependsOn": ["^build"],
+      "outputs": ["storybook-static/**"],
+      "env": ["IS_STORYBOOK"]
+    },
+    "sb:test": {
+      "dependsOn": ["sb:build"]
+    },
+    "playwright:test": {
+      "dependsOn": ["build"],
+      "outputs": ["playwright-report/**"],
+      "env": ["CI"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    }
+  }
+}
