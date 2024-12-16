@@ -5,13 +5,13 @@
     "start": {
       "dependsOn": ["build"],
       "outputs": [],
-      "env": ["RESAS_API_KEY"],
+      "env": [],
       "cache": false
     },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"],
-      "env": ["VERCEL_URL", "BASE_URL", "PORT"]
+      "env": ["VERCEL_URL", "BASE_URL", "PORT", "DATABASE_URL", "SECRET", "LOOPS_API_KEY"]
     },
     "test": {
       "outputs": [],

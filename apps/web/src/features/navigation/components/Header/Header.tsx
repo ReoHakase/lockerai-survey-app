@@ -1,6 +1,7 @@
 import { GithubIcon, History, User } from 'lucide-react';
 import type { ReactNode, ComponentPropsWithoutRef } from 'react';
 import { Suspense } from 'react';
+import { CurrentUserEmail } from '../CurrentUserEmail';
 import { ThemeSelect } from '../ThemeSelect';
 import { TopNavigationLink, TopNavigationLinkFallback } from '../TopNavigation';
 import HeaderIconImage from './icon.png';
@@ -8,22 +9,6 @@ import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
 import { css } from 'styled-system/css';
 import { flex } from 'styled-system/patterns';
-
-/**
- * リンクのテキストを表示するコンポーネントです。
- *
- * @param omittableSuffix - 省略可能な接尾辞の文字列
- * @param children - 必ず表示する文字列
- * @returns span 要素
- */
-const LinkText = ({ omittableSuffix, children }: { omittableSuffix?: string; children: string }): ReactNode => {
-  return (
-    <span>
-      {children}
-      {omittableSuffix ? <span className={css({ smDown: { srOnly: true } })}>{omittableSuffix}</span> : null}
-    </span>
-  );
-};
 
 export type HeaderProps = ComponentPropsWithoutRef<'header'>;
 
@@ -122,19 +107,35 @@ export const Header = ({ ...props }: HeaderProps): ReactNode => {
           fallback={
             <>
               <TopNavigationLinkFallback href="/user">
-                <User /> <LinkText>回答者情報</LinkText>
+                <User /> 回答者
               </TopNavigationLinkFallback>
               <TopNavigationLinkFallback href="/history">
-                <History /> <LinkText>回答履歴</LinkText>
+                <History /> 回答履歴
               </TopNavigationLinkFallback>
             </>
           }
         >
           <TopNavigationLink href="/user">
-            <User /> <LinkText>回答者情報</LinkText>
+            <User /> 回答者
+            <span
+              className={css({
+                // ... ellipsis
+                display: 'inline-block',
+                maxW: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              })}
+            >
+              <CurrentUserEmail />
+            </span>
           </TopNavigationLink>
-          <TopNavigationLink href="/history">
-            <History /> <LinkText>回答履歴</LinkText>
+          <TopNavigationLink
+            href="/history"
+            className={css({
+              flexShrink: '0',
+            })}
+          >
+            <History /> 履歴と謝礼
           </TopNavigationLink>
         </Suspense>
       </nav>
