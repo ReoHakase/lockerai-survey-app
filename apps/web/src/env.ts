@@ -17,6 +17,9 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     VERCEL_URL: z.string().optional(),
     PORT: z.coerce.number().optional().default(3000),
+    DATABASE_URL: z.string().startsWith('postgresql://'),
+    SECRET: z.string(),
+    LOOPS_API_KEY: z.string(),
   },
   client: {
     // example:
@@ -31,5 +34,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     VERCEL_URL: process.env.VERCEL_URL,
     PORT: process.env.PORT,
+    DATABASE_URL: process.env.DATABASE_URL,
+    SECRET: process.env.SECRET,
+    LOOPS_API_KEY: process.env.LOOPS_API_KEY,
   },
 });

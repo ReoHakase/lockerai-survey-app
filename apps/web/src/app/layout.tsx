@@ -32,7 +32,6 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
       {/* Refer: https://vercel.com/docs/concepts/analytics/quickstart */}
       <Analytics />
       <AppProvider>
-        <Aurora />
         <Header />
         <div
           className={css({
@@ -48,20 +47,20 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
         >
           <div
             className={css({
+              pos: 'relative',
+              zIndex: '1',
               w: 'full',
               display: 'flex',
               flexDir: 'column',
               p: '6',
               flexGrow: '3',
-              h: 'calc(100svh - token(sizes.20))',
-              lgDown: {
-                h: '550px', // CLS対策
-              },
+              minH: 'calc(100svh - token(sizes.20))',
             })}
           >
             {children}
           </div>
         </div>
+        <Aurora />
       </AppProvider>
     </body>
   </html>

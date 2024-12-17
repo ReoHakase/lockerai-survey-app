@@ -5,6 +5,19 @@ import { radixColorsPreset } from 'panda-preset-radix-colors';
 import { radixUIPreset } from 'panda-preset-radix-ui';
 import { checkboxSlotRecipe } from '@/components/Checkbox/Checkbox.recipe';
 import { selectSlotRecipe } from '@/components/Select/Select.recipe';
+import {
+  markupHeadingRecipe,
+  markupHrRecipe,
+  markupSpanRecipe,
+  markupDivRecipe,
+  markupImageRecipe,
+  markupListRecipe,
+  markupARecipe,
+  markupBlockquoteRecipe,
+  markupCodeSlotRecipe,
+  markupTableSlotRecipe,
+  markupShowcaseRecipe,
+} from '@/features/markup/styles';
 import { breakpoints } from '@/styles/tokens/breakpoints';
 
 // デフォルトのプリセットから色を削除する
@@ -15,7 +28,7 @@ export default defineConfig({
   preflight: true,
 
   // CSS定義を探査するパス
-  include: ['./src/**/*.{js,jsx,ts,tsx}'],
+  include: ['./src/**/*.{js,jsx,ts,tsx,mdx}'],
 
   // CSS定義をの探査対象から除外するパス
   exclude: [],
@@ -136,6 +149,17 @@ export default defineConfig({
       recipes: {
         select: selectSlotRecipe,
         checkbox: checkboxSlotRecipe,
+        markupHeading: markupHeadingRecipe,
+        markupHr: markupHrRecipe,
+        markupSpan: markupSpanRecipe,
+        markupA: markupARecipe,
+        markupDiv: markupDivRecipe,
+        markupImage: markupImageRecipe,
+        markupList: markupListRecipe,
+        markupBlockquote: markupBlockquoteRecipe,
+        markupCode: markupCodeSlotRecipe,
+        markupTable: markupTableSlotRecipe,
+        markupShowcase: markupShowcaseRecipe,
       },
     },
   },
@@ -161,7 +185,10 @@ export default defineConfig({
       scaleAliases: {
         keyplate: 'slate',
         primary: 'pink',
+        success: 'green',
+        error: 'crimson',
         info: 'cyan',
+        warning: 'amber',
       },
       colorScales: [],
       excludeAlpha: false,

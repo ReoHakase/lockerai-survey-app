@@ -1,9 +1,12 @@
 import { ArrowRight, Wallet, MessageCircleDashed, Vote } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Link } from '@/components/Link';
+import { getSurveyProgress } from '@/usecases/getSurveyProgress';
 import { css } from 'styled-system/css';
 
-const Home = (): ReactNode => {
+const Home = async (): Promise<ReactNode> => {
+  const { annotationCount, annotationCountGoal, quickAnnotationCount, quickAnnotationCountGoal, voteCount } =
+    await getSurveyProgress();
   return (
     <main
       className={css({
@@ -97,7 +100,8 @@ const Home = (): ReactNode => {
                   fontWeight: 'bold',
                 })}
               >
-                目標 1000 件に対して 0 件の回答数 (0%)
+                目標 {annotationCountGoal} 件に対して {annotationCount} 件の回答数 (
+                {Math.round((annotationCount / annotationCountGoal) * 100)}%)
               </span>
             </span>
             <ArrowRight className={css({ flexShrink: 0 })} />
@@ -156,14 +160,15 @@ const Home = (): ReactNode => {
                   fontWeight: 'bold',
                 })}
               >
-                目標 500 件に対して 0 件の回答数 (0%)
+                目標 {quickAnnotationCountGoal} 件に対して {quickAnnotationCount} 件の回答数 (
+                {Math.round((quickAnnotationCount / quickAnnotationCountGoal) * 100)}%)
               </span>
             </span>
             <ArrowRight className={css({ flexShrink: 0 })} />
           </span>
         </Link>
         <Link
-          href="/all?prefCodes=1,47"
+          href="/survey/vote"
           className={css({
             px: '6',
             py: '4',
@@ -215,7 +220,7 @@ const Home = (): ReactNode => {
                   fontWeight: 'bold',
                 })}
               >
-                0 件の回答数
+                {voteCount} 件の回答数
               </span>
             </span>
             <ArrowRight className={css({ flexShrink: 0 })} />
@@ -249,3 +254,9 @@ const Home = (): ReactNode => {
 };
 
 export default Home;
+
+/**
+ * ルートが再生成されるまでの時間を秒単位で指定します。
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate
+ */
+export const revalidate = 60; // 1分

@@ -43,3 +43,6 @@ storybook-static
 # その他
 .DS_Store
 *.pem
+
+# fumadocs-mdxのビルド成果物
+.source
