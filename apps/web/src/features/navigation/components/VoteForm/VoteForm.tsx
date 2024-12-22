@@ -5,13 +5,12 @@ import { ChevronDown, Check } from 'lucide-react';
 import Form from 'next/form';
 import type { FormProps } from 'next/form';
 import type { ReactNode } from 'react';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TimeSince } from '../TimeSince';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import {
   Select,
-  SelectGroup,
   SelectValue,
   SelectTrigger,
   SelectIcon,
@@ -20,10 +19,7 @@ import {
   SelectContent,
   SelectItemIndicator,
   SelectItemText,
-  SelectItemDescription,
   SelectItem,
-  SelectLabel,
-  SelectSeparator,
 } from '@/components/Select';
 import { emailAtom } from '@/states/atoms/email';
 
@@ -43,6 +39,7 @@ export const VoteForm = ({ className, ...props }: VoteFormProps): ReactNode => {
     <Form
       className={cx(
         css({
+          pos: 'relative',
           my: '2',
           display: 'flex',
           flexDir: 'column',
@@ -72,8 +69,13 @@ export const VoteForm = ({ className, ...props }: VoteFormProps): ReactNode => {
           必須
         </span>
       </label>
+      <p>
+        説明文章を書いた人物が遺失物の本当の持ち主だと思うので、遺失物を渡しても問題なさそうなら、「はい、問題ありません」を選択してください。
+        <br />
+        逆に、渡さないべきなら「いいえ、問題あります」を選択してください。
+      </p>
       <Select name="authorization" required>
-        <SelectTrigger aria-label="Language selector" className={css({ w: 'full' })}>
+        <SelectTrigger aria-label="遺失物を渡しても問題ないかどうか" className={css({ w: 'full' })}>
           <SelectValue placeholder="選択肢から選んでください" />
           <SelectIcon>
             <ChevronDown />
@@ -83,19 +85,13 @@ export const VoteForm = ({ className, ...props }: VoteFormProps): ReactNode => {
           <SelectContent position="popper" side="bottom" sideOffset={4}>
             <SelectViewport>
               <SelectItem value="grant">
-                <SelectItemText>はい</SelectItemText>
-                <SelectItemDescription>
-                  説明文章を書いた人物が、遺失物の本当の持ち主だと思うので、遺失物を渡す
-                </SelectItemDescription>
+                <SelectItemText>はい、問題ありません</SelectItemText>
                 <SelectItemIndicator>
                   <Check />
                 </SelectItemIndicator>
               </SelectItem>
               <SelectItem value="deny">
-                <SelectItemText>いいえ</SelectItemText>
-                <SelectItemDescription>
-                  説明文章を書いた人物は、遺失物の本当の持ち主でないと思うので、遺失物を渡さない
-                </SelectItemDescription>
+                <SelectItemText>いいえ、問題あります</SelectItemText>
                 <SelectItemIndicator>
                   <Check />
                 </SelectItemIndicator>

@@ -1,14 +1,14 @@
 import { Wallet, MessageCircleDashed, Vote } from 'lucide-react';
+import Form from 'next/form';
 import type { ReactElement } from 'react';
+import { redeemByAnnotation, redeemByVote } from '@/app/actions';
 import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
 import { Email } from '@/states/atoms/email';
 import { getRedeems } from '@/usecases/getRedeems';
 import { getAnnotationSurveyProgressByEmail, getVoteSurveyProgressByEmail } from '@/usecases/getSurveyProgress';
 import { css } from 'styled-system/css';
 import { markupHeading } from 'styled-system/recipes';
-import { redeemByAnnotation, redeemByVote } from '@/app/actions';
-import Form from 'next/form';
-import { Input } from '@/components/Input';
 
 export type HistoryProps = {
   email: Email;

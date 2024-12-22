@@ -11,7 +11,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"],
-      "env": ["VERCEL_URL", "BASE_URL", "PORT", "DATABASE_URL", "SECRET", "LOOPS_API_KEY"]
+      "env": ["VERCEL_URL", "BASE_URL", "PORT", "DATABASE_URL", "SECRET", "LOOPS_API_KEY", "DISABLE_VOTE"]
     },
     "test": {
       "outputs": [],

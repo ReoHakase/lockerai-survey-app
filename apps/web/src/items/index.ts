@@ -1,33 +1,16 @@
 import { z } from 'zod';
 import unsafeIndex from '../../public/data/index.json'; // eslint-disable-line
 
-export const AttributesSchema = z.object({
-  IsGroupOf: z.boolean(),
-  IsInside: z.boolean(),
-  IsOccluded: z.boolean(),
-  IsDepiction: z.boolean(),
-  IsTruncated: z.boolean(),
-});
-
-export const BoundingBoxSchema = z.tuple([
-  z.number(), // x1
-  z.number(), // y1
-  z.number(), // x2
-  z.number(), // y2
-]);
-
 export const LabelSchema = z.object({
   label: z.string(),
-  bounding_box: BoundingBoxSchema,
-  attributes: AttributesSchema,
+  latency: z.number(),
 });
 
 export type Label = z.infer<typeof LabelSchema>;
 
-export const LabelsSchema = z.record(z.array(LabelSchema).length(1));
+export const LabelsSchema = z.record(z.array(LabelSchema).nonempty());
 
 export const IndexSchema = z.object({
-  classes: z.null(), // null value for classes
   labels: LabelsSchema,
 });
 

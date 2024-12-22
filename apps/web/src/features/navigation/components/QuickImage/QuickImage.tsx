@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { TimeSince } from '../TimeSince';
 import { Button } from '@/components/Button';
 import { Image } from '@/components/Image';
@@ -9,9 +9,11 @@ import { cx, css } from 'styled-system/css';
 
 type DisplayState = 'before' | 'during' | 'after';
 
-export type QuickImageProps = ImageProps;
+export type QuickImageProps = ImageProps & {
+  imageClassName?: string;
+};
 
-export const QuickImage = ({ className, alt, ...props }: QuickImageProps) => {
+export const QuickImage = ({ className, imageClassName, alt, ...props }: QuickImageProps) => {
   const [displayState, setDisplayState] = useState<DisplayState>('before');
   const [since, setSince] = useState<Date | null>(null);
 
@@ -37,7 +39,11 @@ export const QuickImage = ({ className, alt, ...props }: QuickImageProps) => {
         className,
       )}
     >
-      <Image alt={alt} className={cx(displayState !== 'during' && css({ filter: 'auto', blur: '3xl' }))} {...props} />
+      <Image
+        alt={alt}
+        className={cx(displayState !== 'during' && css({ filter: 'auto', blur: '3xl' }), imageClassName)}
+        {...props}
+      />
       <div
         className={css({
           pos: 'absolute',

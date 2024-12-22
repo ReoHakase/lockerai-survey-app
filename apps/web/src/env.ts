@@ -24,6 +24,7 @@ export const env = createEnv({
   client: {
     // example:
     // NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_DISABLE_VOTE: z.coerce.boolean().optional().default(false),
   },
   runtimeEnv: {
     // you'll have to destructure all the keys manually.
@@ -37,5 +38,6 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     SECRET: process.env.SECRET,
     LOOPS_API_KEY: process.env.LOOPS_API_KEY,
+    NEXT_PUBLIC_DISABLE_VOTE: process.env.NEXT_PUBLIC_DISABLE_VOTE,
   },
 });

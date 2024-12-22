@@ -9,9 +9,9 @@ export const getSurveyProgress = async () => {
   const quickAnnotationCount = await db.$count(annotationTable, eq(annotationTable.quick, true));
   const voteCount = await db.$count(voteTable);
   return {
-    annotationCountGoal: 1000 as const,
+    annotationCountGoal: 1406 as const,
     annotationCount,
-    quickAnnotationCountGoal: 500 as const,
+    quickAnnotationCountGoal: 703 as const,
     quickAnnotationCount,
     voteCount,
   };

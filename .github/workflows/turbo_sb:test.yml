@@ -6,7 +6,6 @@ on:
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-  RESAS_API_KEY: ${{ secrets.RESAS_API_KEY }}
 
 jobs:
   sbtest:
@@ -44,15 +43,8 @@ jobs:
       - name: Install Playwright with Dependencies
         run: pnpm playwright install --with-deps
 
-      - name: Debug RESAS_API_KEY
-        run: echo ${RESAS_API_KEY:0:6}
-        env:
-          RESAS_API_KEY: ${{ secrets.RESAS_API_KEY }}
-
       - name: Export all environment variables to .env
         run: printenv > apps/web/.env && ls -a apps/web
 
       - name: Test Storybook with Turbo
         run: pnpm turbo sb:test
-        env:
-          RESAS_API_KEY: ${{ secrets.RESAS_API_KEY }}

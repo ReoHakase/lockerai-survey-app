@@ -1,12 +1,15 @@
 import { ArrowRight, Wallet, MessageCircleDashed, Vote } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Link } from '@/components/Link';
+import { env } from '@/env';
 import { getSurveyProgress } from '@/usecases/getSurveyProgress';
 import { css } from 'styled-system/css';
 
 const Home = async (): Promise<ReactNode> => {
   const { annotationCount, annotationCountGoal, quickAnnotationCount, quickAnnotationCountGoal, voteCount } =
     await getSurveyProgress();
+  const isVoteDisabled = env.NEXT_PUBLIC_DISABLE_VOTE;
+  console.info('isVoteDisabled', isVoteDisabled);
   return (
     <main
       className={css({
@@ -168,7 +171,8 @@ const Home = async (): Promise<ReactNode> => {
           </span>
         </Link>
         <Link
-          href="/survey/vote"
+          href={isVoteDisabled ? '/' : '/survey/vote'}
+          data-disabled={isVoteDisabled || undefined}
           className={css({
             px: '6',
             py: '4',
@@ -182,6 +186,10 @@ const Home = async (): Promise<ReactNode> => {
             transition: 'background-color 0.2s',
             _hover: {
               bg: 'keyplate.a.3',
+            },
+            '&[data-disabled]': {
+              bg: 'keyplate.a.3',
+              cursor: 'not-allowed',
             },
           })}
         >
@@ -199,7 +207,7 @@ const Home = async (): Promise<ReactNode> => {
                 color: 'green.11',
               })}
             />
-            説明文章が遺失物を正しく説明しているか投票する
+            説明文章が遺失物を正しく説明しているか投票する{isVoteDisabled && ' (準備中)'}
           </span>
           <span
             className={css({

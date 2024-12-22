@@ -20,9 +20,8 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
   if (!annotation) {
     notFound();
   }
-  const { imageId, label, inquiry } = annotation;
-  // const image = (await import(`../../../../../public/data/images/${imageId}.jpg`)).default as StaticImageData;
-  const image = (await import(`../../../../../public/data/images/test-samba1.jpg`)).default as StaticImageData;
+  const { imageId, label, inquiry, latency } = annotation;
+  const image = (await import(`../../../../../public/data/images/${imageId}.webp`)).default as StaticImageData;
 
   const insertResult = async (formData: FormData) => {
     'use server';
@@ -56,7 +55,7 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
           flexDir: 'column',
           justifyContent: 'start',
           alignItems: 'stretch',
-          gap: '6',
+          gap: '2',
         })}
       >
         <Image src={image} alt={label} placeholder="blur" />
@@ -80,6 +79,38 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
           </span>
         </label>
         <Textarea id="inquiry" name="inquiry" placeholder="ここに説明文章を入力してください" value={inquiry} readOnly />
+        <label
+          htmlFor="latency"
+          className={css({
+            alignSelf: 'start',
+            fontWeight: 'bold',
+          })}
+        >
+          主張された紛失日時と実際の誤差{' '}
+          <span
+            className={css({
+              fontSize: 'sm',
+              p: '1',
+              bg: 'info.11',
+              color: 'info.1',
+            })}
+          >
+            投票対象
+          </span>
+        </label>
+        <p
+          id="latency"
+          className={css({
+            bg: 'keyplate.a.2',
+            rounded: 'md',
+            py: '2',
+            px: '4',
+          })}
+        >
+          {latency > 0
+            ? `遺失物を引き取るために説明文章の書き主が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日後でした。`
+            : `遺失物を引き取るために説明文章の書き主が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日前でした。`}
+        </p>
         <VoteForm action={insertResult} />
       </div>
       <div

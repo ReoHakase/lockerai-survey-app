@@ -106,7 +106,7 @@ export const Header = ({ ...props }: HeaderProps): ReactNode => {
         <Suspense
           fallback={
             <>
-              <TopNavigationLinkFallback href="/user">
+              <TopNavigationLinkFallback href="#">
                 <User /> 回答者
               </TopNavigationLinkFallback>
               <TopNavigationLinkFallback href="/history">
@@ -115,7 +115,7 @@ export const Header = ({ ...props }: HeaderProps): ReactNode => {
             </>
           }
         >
-          <TopNavigationLink href="/user">
+          <TopNavigationLink href="#">
             <User /> 回答者
             <span
               className={css({

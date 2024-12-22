@@ -18,8 +18,8 @@ const AnnotationPage = async ({ params }: AnnotationPageProps): Promise<ReactEle
   if (!validateImageId(imageId)) {
     notFound();
   }
-  const { label } = getLabel(imageId);
-  const image = (await import(`../../../../../public/data/images/${imageId}.jpg`)).default as StaticImageData;
+  const { label, latency } = getLabel(imageId);
+  const image = (await import(`../../../../../public/data/images/${imageId}.webp`)).default as StaticImageData;
 
   const insertResult = async (formData: FormData) => {
     'use server';
@@ -29,7 +29,7 @@ const AnnotationPage = async ({ params }: AnnotationPageProps): Promise<ReactEle
     const endsAt = new Date();
     const duration = (endsAt.getTime() - startsAt.getTime()) / 1000;
     const quick = true;
-    await createAnnotation({ imageId, label, email, inquiry, duration, quick });
+    await createAnnotation({ imageId, label, email, inquiry, duration, quick, latency });
     redirect('/');
   };
 
@@ -57,7 +57,12 @@ const AnnotationPage = async ({ params }: AnnotationPageProps): Promise<ReactEle
           gap: '6',
         })}
       >
-        <QuickImage src={image} alt={label} placeholder="blur" />
+        <QuickImage
+          src={image}
+          alt={label}
+          placeholder="blur"
+          imageClassName={css({ maxH: '80svh', objectFit: 'contain' })}
+        />
         <AnnotationForm action={insertResult} />
       </div>
       <div

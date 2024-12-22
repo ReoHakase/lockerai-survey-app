@@ -19,6 +19,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "pnpx tsx --env-file .env.local src/db/seed.ts",
+    "db:seed-ai": "pnpx tsx --env-file .env.local src/db/seedAi.ts",
     "db:reset": "pnpx tsx --env-file .env.local src/db/reset.ts",
     "db:studio": "drizzle-kit studio"
   },

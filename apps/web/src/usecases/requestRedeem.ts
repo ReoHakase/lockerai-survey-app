@@ -1,4 +1,5 @@
 import { randomBytes } from 'crypto';
+import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { getAnnotationSurveyProgressByEmail, getVoteSurveyProgressByEmail } from './getSurveyProgress';
 import { redeemTable } from '@/db/schema';
@@ -42,6 +43,7 @@ export const requestRedeem = async ({ email, type }: { email: Email; type: 'anno
     },
   });
   if (!emailResponse.success) {
+    await db.delete(redeemTable).where(eq(redeemTable.id, insertedRow.id));
     throw new Error(`受け取りメールの送信に失敗しました。 ${JSON.stringify(emailResponse)}`);
   }
 };

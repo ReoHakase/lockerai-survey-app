@@ -3,44 +3,53 @@ import { uuid, text, pgTable, pgEnum, varchar, timestamp, boolean, real } from '
 import { createInsertSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+export const annotatorOptionsEnum = pgEnum('annotator_options', ['human', 'ai']);
 export const redeemTypeOptionsEnum = pgEnum('redeem_type_options', ['annotation', 'vote']);
 export const authorizationOptionsEnum = pgEnum('authorization_options', ['grant', 'deny']);
 
+// 遺失物の画像から説明文章を書くアノテーションの結果
 export const annotationTable = pgTable('annotation', {
   id: uuid()
     .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  email: varchar({ length: 255 }).notNull(),
-  imageId: varchar('image_id', { length: 255 }).notNull(),
-  label: varchar({ length: 255 }).notNull(),
-  inquiry: text().notNull(),
-  duration: real().notNull(),
-  quick: boolean().notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+    .$defaultFn(() => randomUUID()), // プライマリキー (UUIDv4)
+  email: varchar({ length: 255 }), // 遺失物の画像を書いた人のメールアドレス
+  imageId: varchar('image_id', { length: 255 }).notNull(), // 遺失物の画像の拡張子を除いたファイル名
+  latency: real().notNull(), // 遺失物を引き取るために説明文章の書き主が主張している紛失日時 - 実際の紛失日時の誤差 (単位:日)
+  annotator: annotatorOptionsEnum()
+    .notNull()
+    .$default(() => 'human'), // 説明文章を書いた者の分類
+  label: varchar({ length: 255 }).notNull(), // Open Imege Dataset v7由来の画像のラベル
+  inquiry: text().notNull(), // 説明文書
+  duration: real(), // 説明文書を書くのにかかった時間 (単位:秒)
+  quick: boolean().notNull(), // 10秒間だけ画像が表示される収集方法だったかどうか
+  createdAt: timestamp('created_at').defaultNow().notNull(), // アノテーションの登録日時
 });
 
+// 説明文章が遺失物を正しく説明しているの投票結果
 export const voteTable = pgTable('vote', {
   id: uuid()
     .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  email: varchar({ length: 255 }).notNull(),
+    .$defaultFn(() => randomUUID()), // プライマリキー (UUIDv4)
+  email: varchar({ length: 255 }).notNull(), // 投票した人のメールアドレス
   annotation: uuid()
     .references(() => annotationTable.id)
-    .notNull(),
-  authorization: authorizationOptionsEnum().notNull(),
-  duration: real().notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+    .notNull(), // 投票対象のアノテーション
+  authorization: authorizationOptionsEnum().notNull(), // 是認か否認かのどちらか
+  duration: real().notNull(), // 回答までの所要時間 (単位:秒)
+  createdAt: timestamp('created_at').defaultNow().notNull(), // 投票結果の登録日時
 });
 
+// 謝礼の受け取り状態
 export const redeemTable = pgTable('redeem', {
   id: uuid()
     .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  email: varchar({ length: 255 }).notNull(),
-  secret: varchar({ length: 255 }).notNull(),
-  type: redeemTypeOptionsEnum().notNull(),
-  confirmedAt: timestamp('confirmed_at'),
-  requestedAt: timestamp('requested_at').defaultNow().notNull(),
+    .$defaultFn(() => randomUUID()), // プライマリキー (UUIDv4)
+  email: varchar({ length: 255 }).notNull(), // 謝礼を受け取る人のメールアドレス
+  secret: varchar({ length: 255 }).notNull(), // 謝礼の受け取り用の秘密の文字列
+  type: redeemTypeOptionsEnum().notNull(), // 謝礼の種類 (アノテーションか投票か)
+  lastResentAt: timestamp('last_resent_at').defaultNow().notNull(), // 最後に受け取り用メールが再送信された日時
+  confirmedAt: timestamp('confirmed_at'), // 謝礼の受け取りが確認された日時
+  requestedAt: timestamp('requested_at').defaultNow().notNull(), // 謝礼の受け取りが申請された日時
 });
 
 export const insertAnnotationSchema = createInsertSchema(annotationTable);

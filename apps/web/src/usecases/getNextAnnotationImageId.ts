@@ -26,6 +26,8 @@ export const getNextAnnotationImageId = async ({ email }: { email: Email }) => {
   const restImageIdSet = imageIdSet.difference(doneImageIdSet);
   const restImageIds = Array.from(restImageIdSet);
 
+  console.info('restImageIds', restImageIdSet.size, restImageIds);
+
   if (restImageIds.length > 20) {
     // 5. 残りの画像IDからランダムに1つ選択
     return pickOneRandomly(restImageIds);
@@ -43,18 +45,3 @@ export const getNextAnnotationImageId = async ({ email }: { email: Email }) => {
   const myRestImageIds = Array.from(myRestImageIdSet);
   return pickOneRandomly(myRestImageIds);
 };
-
-// export const getNextAnnotationImageId = async ({ email }: { email: Email }) => {
-//   const doneAnnotations = await db
-//     .select({ imageId: annotationTable.imageId })
-//     .from(annotationTable)
-//     .where(eq(annotationTable.email, email));
-//   const doneImageIds = doneAnnotations.map((a) => a.imageId);
-//   const imageIds = getImageIds();
-//   const restImageIds = imageIds.filter((id) => !doneImageIds.includes(id));
-//   if (restImageIds.length === 0) {
-//     return null;
-//   }
-//   const nextImageId = pickOneRandomly(restImageIds);
-//   return nextImageId;
-// };
