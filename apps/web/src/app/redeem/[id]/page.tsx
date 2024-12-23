@@ -3,8 +3,6 @@ import type { ReactElement } from 'react';
 import RedeemAlreadyConfirmedDocs from '@/docs/redeem-already-confirmed.mdx';
 import RedeemConfirmedDocs from '@/docs/redeem-confirmed.mdx';
 
-import { EmailForm } from '@/features/navigation/components/EmailForm/EmailForm';
-import { History } from '@/features/navigation/components/History/History';
 import { confirmRedeem } from '@/usecases/confirmRedeem';
 import { css } from 'styled-system/css';
 

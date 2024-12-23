@@ -1,6 +1,4 @@
 import { ArrowDown } from 'lucide-react';
-import { notFound } from 'next/navigation';
-import { redirect } from 'next/navigation';
 import type { ReactElement } from 'react';
 import HistoryDocs from '@/docs/history.mdx';
 

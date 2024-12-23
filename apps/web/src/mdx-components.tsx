@@ -1,5 +1,8 @@
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { Input } from './components/Input';
+import { Textarea } from './components/Textarea';
+import { Showcase } from './features/markup/components/Showcase/Showcase';
 import { Image } from '@/components/Image/Image';
 import type { ImageProps } from '@/components/Image/Image';
 import { css, cx } from 'styled-system/css';
@@ -15,9 +18,6 @@ import {
   markupTable,
   markupBlockquote,
 } from 'styled-system/recipes';
-import { Showcase } from './features/markup/components/Showcase/Showcase';
-import { Input } from './components/Input';
-import { Textarea } from './components/Textarea';
 
 // Define your custom MDX components.
 const mdxComponents: MDXComponents = {
