@@ -4,11 +4,11 @@ import { redirect } from 'next/navigation';
 import type { ReactElement } from 'react';
 import QuickAnnotationDocs from '@/docs/quick-annotation.mdx';
 import { AnnotationForm } from '@/features/navigation/components/AnnotationForm/AnnotaionForm';
+import { ImageLabel } from '@/features/navigation/components/ImageLabel';
 import { QuickImage } from '@/features/navigation/components/QuickImage/QuickImage';
 import { validateImageId, getLabel } from '@/items';
 import { createAnnotation } from '@/usecases/createAnnotation';
 import { css } from 'styled-system/css';
-import { markupHeading } from 'styled-system/recipes';
 
 type AnnotationPageProps = {
   params: Promise<{ imageId: string }>;
@@ -58,7 +58,7 @@ const AnnotationPage = async ({ params }: AnnotationPageProps): Promise<ReactEle
           gap: '6',
         })}
       >
-        <h2 className={markupHeading({ level: 'h3' })}>分類: {label}</h2>
+        <ImageLabel label={label} />
         <QuickImage
           src={image}
           alt={label}

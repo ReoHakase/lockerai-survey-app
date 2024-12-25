@@ -1,0 +1,1 @@
+export { ImageLabel } from './ImageLabel';

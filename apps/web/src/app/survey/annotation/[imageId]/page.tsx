@@ -5,10 +5,10 @@ import type { ReactElement } from 'react';
 import { Image } from '@/components/Image';
 import AnnotationDocs from '@/docs/annotation.mdx';
 import { AnnotationForm } from '@/features/navigation/components/AnnotationForm/AnnotaionForm';
+import { ImageLabel } from '@/features/navigation/components/ImageLabel';
 import { validateImageId, getLabel } from '@/items';
 import { createAnnotation } from '@/usecases/createAnnotation';
 import { css } from 'styled-system/css';
-import { markupHeading } from 'styled-system/recipes';
 
 type AnnotationPageProps = {
   params: Promise<{ imageId: string }>;
@@ -58,7 +58,7 @@ const AnnotationPage = async ({ params }: AnnotationPageProps): Promise<ReactEle
           gap: '6',
         })}
       >
-        <h2 className={markupHeading({ level: 'h3' })}>分類: {label}</h2>
+        <ImageLabel label={label} />
         <Image src={image} alt={label} placeholder="blur" className={css({ maxH: '80svh', objectFit: 'contain' })} />
         <AnnotationForm action={insertResult} />
       </div>
