@@ -2,7 +2,7 @@ import { Wallet, MessageCircleDashed, Vote } from 'lucide-react';
 import Form from 'next/form';
 import type { ReactElement } from 'react';
 import { redeemByAnnotation, redeemByVote } from '@/app/actions';
-import { Button } from '@/components/Button';
+import { SubmitButton } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Email } from '@/states/atoms/email';
 import { getRedeems } from '@/usecases/getRedeems';
@@ -131,7 +131,7 @@ export const History = async ({ email }: HistoryProps): Promise<ReactElement> =>
         <li className={css({ alignSelf: 'end' })}>
           <Form action={redeemByAnnotation}>
             <Input name="email" type="email" value={email} readOnly className={css({ display: 'none' })} />
-            <Button disabled={!isRedeemableByAnnotaion}>🎁 条件1でモンスターエナジーを受け取る →</Button>
+            <SubmitButton disabled={!isRedeemableByAnnotaion}>🎁 条件1でモンスターエナジーを受け取る →</SubmitButton>
           </Form>
         </li>
       </ul>
@@ -190,7 +190,7 @@ export const History = async ({ email }: HistoryProps): Promise<ReactElement> =>
         <li className={css({ alignSelf: 'end' })}>
           <Form action={redeemByVote}>
             <Input name="email" type="email" value={email} readOnly className={css({ display: 'none' })} />
-            <Button disabled={!isRedeemableByVote}>🎁 条件2でモンスターエナジーを受け取る →</Button>
+            <SubmitButton disabled={!isRedeemableByVote}>🎁 条件2でモンスターエナジーを受け取る →</SubmitButton>
           </Form>
         </li>
       </ul>

@@ -14,3 +14,9 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 export const Default: Story = {};
+
+export const Pending: Story = {
+  args: {
+    pending: true,
+  },
+};

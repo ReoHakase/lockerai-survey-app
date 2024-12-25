@@ -5,7 +5,7 @@ import Form from 'next/form';
 import type { FormProps } from 'next/form';
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
-import { Button } from '@/components/Button';
+import { SubmitButton } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { emailAtom } from '@/states/atoms/email';
 
@@ -69,14 +69,13 @@ export const EmailForm = ({
         placeholder="st*****xx@gm.ibaraki-ct.ac.jp"
         defaultValue={email || undefined}
       />
-      <Button
-        type="submit"
+      <SubmitButton
         className={css({
           mt: '2',
         })}
       >
         {submitButtonText} →
-      </Button>
+      </SubmitButton>
     </Form>
   );
 };

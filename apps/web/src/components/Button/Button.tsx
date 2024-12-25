@@ -1,16 +1,24 @@
 'use client';
 
+import { Loader } from 'lucide-react';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
+import { useFormStatus } from 'react-dom';
 import { cx, css } from 'styled-system/css';
 
-export type ButtonProps = ComponentPropsWithRef<'button'>;
+export type ButtonProps = ComponentPropsWithRef<'button'> & {
+  pending?: boolean;
+};
 
-export const Button = ({ className, ...props }: ButtonProps): ReactNode => {
+export const Button = ({ className, pending = false, disabled, children, ...props }: ButtonProps): ReactNode => {
   return (
     <button
+      disabled={disabled || pending}
       className={cx(
         css({
+          display: 'flex',
+          flexDir: 'row',
           pos: 'relative',
+          alignItems: 'center',
           transition: 'all',
           // transitionDuration: '200ms',
           fontFamily: 'heading',
@@ -41,6 +49,24 @@ export const Button = ({ className, ...props }: ButtonProps): ReactNode => {
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+      {pending && (
+        <Loader
+          className={css({
+            animation: 'spin',
+            w: '4',
+            h: '4',
+          })}
+        />
+      )}
+    </button>
   );
+};
+
+export type SubmitButtonProps = Omit<ButtonProps, 'pending' | 'type'>;
+
+export const SubmitButton = ({ ...props }: SubmitButtonProps) => {
+  const { pending } = useFormStatus();
+  return <Button {...props} type="submit" pending={pending} />;
 };

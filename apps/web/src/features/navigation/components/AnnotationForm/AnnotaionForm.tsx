@@ -6,7 +6,7 @@ import type { FormProps } from 'next/form';
 import type { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
 import { TimeSince } from '../TimeSince';
-import { Button } from '@/components/Button';
+import { SubmitButton } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/Textarea';
 import { emailAtom } from '@/states/atoms/email';
@@ -77,14 +77,13 @@ export const AnnotationForm = ({ className, ...props }: AnnotationFormProps): Re
           display: 'none',
         })}
       />
-      <Button
-        type="submit"
+      <SubmitButton
         className={css({
           mt: '2',
         })}
       >
         回答を完了して送信 →
-      </Button>
+      </SubmitButton>
       <TimeSince since={startsAt} />
     </Form>
   );
