@@ -5,8 +5,14 @@ import { annotationTable, voteTable, redeemTable } from '@/db/schema';
 import type { Email } from '@/states/atoms/email';
 
 export const getSurveyProgress = async () => {
-  const annotationCount = await db.$count(annotationTable, eq(annotationTable.quick, false));
-  const quickAnnotationCount = await db.$count(annotationTable, eq(annotationTable.quick, true));
+  const annotationCount = await db.$count(
+    annotationTable,
+    and(eq(annotationTable.quick, false), eq(annotationTable.annotator, 'human')),
+  );
+  const quickAnnotationCount = await db.$count(
+    annotationTable,
+    and(eq(annotationTable.quick, true), eq(annotationTable.annotator, 'human')),
+  );
   const voteCount = await db.$count(voteTable);
   return {
     annotationCountGoal: 1406 as const,

@@ -13,7 +13,10 @@ const pickOneRandomly = <T>(array: T[]) => {
 
 export const getNextAnnotationImageId = async ({ email }: { email: Email }) => {
   // 1. DBからアノテーション済みの画像IDを取得
-  const doneAnnotations = await db.select({ imageId: annotationTable.imageId }).from(annotationTable);
+  const doneAnnotations = await db
+    .select({ imageId: annotationTable.imageId })
+    .from(annotationTable)
+    .where(eq(annotationTable.annotator, 'human'));
 
   // 2. Setを使ってアノテーション済みIDを管理
   const doneImageIdSet = new Set(doneAnnotations.map((a) => a.imageId));
