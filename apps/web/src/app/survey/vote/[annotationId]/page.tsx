@@ -9,6 +9,7 @@ import { VoteForm } from '@/features/navigation/components/VoteForm/VoteForm';
 import { createVote } from '@/usecases/createVote';
 import { getAnnotation } from '@/usecases/getAnnotation';
 import { css } from 'styled-system/css';
+import { markupHeading } from 'styled-system/recipes';
 
 type VotePageProps = {
   params: Promise<{ annotationId: string }>;
@@ -58,6 +59,7 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
           gap: '2',
         })}
       >
+        <h2 className={markupHeading({ level: 'h3' })}>分類: {label}</h2>
         <Image src={image} alt={label} placeholder="blur" />
         <label
           htmlFor="inquiry"
