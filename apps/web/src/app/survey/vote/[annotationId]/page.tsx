@@ -8,6 +8,7 @@ import VoteDocs from '@/docs/vote.mdx';
 import { ImageLabel } from '@/features/navigation/components/ImageLabel/ImageLabel';
 import { VoteForm } from '@/features/navigation/components/VoteForm/VoteForm';
 import { createVote } from '@/usecases/createVote';
+import { getAiAnnotationByImageId } from '@/usecases/getAiAnnotationByImageId';
 import { getAnnotation } from '@/usecases/getAnnotation';
 import { css } from 'styled-system/css';
 
@@ -23,6 +24,10 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
   }
   const { imageId, label, inquiry, latency } = annotation;
   const image = (await import(`../../../../../public/data/images/${imageId}.webp`)).default as StaticImageData;
+  const aiAnnotation = await getAiAnnotationByImageId({ imageId });
+  if (!aiAnnotation) {
+    throw new Error('AIによるアノテーションが見つかりませんでした。');
+  }
 
   const insertResult = async (formData: FormData) => {
     'use server';
@@ -62,13 +67,39 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
         <ImageLabel label={label} />
         <Image src={image} alt={label} placeholder="blur" />
         <label
+          htmlFor="ai-inquiry"
+          className={css({
+            alignSelf: 'start',
+            fontWeight: 'bold',
+          })}
+        >
+          正しい説明文章{' '}
+          <span
+            className={css({
+              fontSize: 'sm',
+              p: '1',
+              bg: 'success.11',
+              color: 'success.1',
+            })}
+          >
+            AIによる自動生成
+          </span>
+        </label>
+        <Textarea
+          id="ai-inquiry"
+          name="ai-inquiry"
+          placeholder="ここに説明文章を入力してください"
+          value={aiAnnotation.inquiry}
+          readOnly
+        />
+        <label
           htmlFor="inquiry"
           className={css({
             alignSelf: 'start',
             fontWeight: 'bold',
           })}
         >
-          説明文章{' '}
+          遺失物を引き取ろうとしている人物による説明文章{' '}
           <span
             className={css({
               fontSize: 'sm',
@@ -110,8 +141,8 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
           })}
         >
           {latency > 0
-            ? `遺失物を引き取るために説明文章の書き主が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日後でした。`
-            : `遺失物を引き取るために説明文章の書き主が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日前でした。`}
+            ? `遺失物を引き取るために説明文章を書いた人物が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日後でした。`
+            : `遺失物を引き取るために説明文章を書いた人物が主張している紛失日時は、実際の紛失日時の ${Math.abs(latency)} 日前でした。`}
         </p>
         <VoteForm action={insertResult} />
       </div>
