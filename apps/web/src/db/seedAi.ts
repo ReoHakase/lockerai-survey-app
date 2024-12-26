@@ -5,32 +5,24 @@ import type { InsertAnnotation } from './schema';
 import { insertAnnotationSchema, annotationTable } from './schema';
 import { db } from '.';
 
-const aiAnnotationsSchema = z.object({
-  labels: z.record(
-    z.string(),
-    z
-      .array(
-        z.object({
-          label: z.string(),
-          latency: z.number(),
-          machineAnnotation: z.string(),
-        }),
-      )
-      .length(1),
-  ),
-});
+const aiAnnotationsSchema = z.array(
+  z.object({
+    id: z.string(),
+    imageId: z.string(),
+    label: z.string(),
+    latency: z.number(),
+    inquiry: z.string(),
+  }),
+);
 
 const main = async () => {
   const aiAnnotations = aiAnnotationsSchema.parse(unsafeAiAnnotations);
   const aiAnnotationRows = z.array(insertAnnotationSchema).parse(
-    Object.entries(aiAnnotations.labels).map(
-      ([imageId, [{ label, latency, machineAnnotation }]]): InsertAnnotation => ({
-        imageId,
-        label,
-        latency,
-        annotator: 'ai',
-        inquiry: machineAnnotation,
+    aiAnnotations.map(
+      (cols): InsertAnnotation => ({
+        ...cols,
         quick: false,
+        annotator: 'ai',
       }),
     ),
   );
