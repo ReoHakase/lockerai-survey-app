@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getImageIds > JSONファイルからラベルがついている画像のIDを全て取得できる 1`] = `
+[
+  "00299661bf57253d",
+  "0ea2faa8f80d09d2",
+  "10442d366d5061ee",
+  "1a4df54f9ecec3c6",
+  "1a6a82e6106c75a6",
+]
+`;

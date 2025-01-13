@@ -13,14 +13,18 @@ const isServer =
 export const env = createEnv({
   isServer,
   server: {
-    BASE_URL: z.string().optional().default('resas.reoiam.dev'),
+    BASE_URL: z.string().optional().default('lockerai-survey.vercel.app'),
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     VERCEL_URL: z.string().optional(),
     PORT: z.coerce.number().optional().default(3000),
+    DATABASE_URL: z.string().startsWith('postgresql://'),
+    SECRET: z.string(),
+    LOOPS_API_KEY: z.string(),
   },
   client: {
     // example:
     // NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_DISABLE_VOTE: z.coerce.boolean().optional().default(false),
   },
   runtimeEnv: {
     // you'll have to destructure all the keys manually.
@@ -31,5 +35,9 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     VERCEL_URL: process.env.VERCEL_URL,
     PORT: process.env.PORT,
+    DATABASE_URL: process.env.DATABASE_URL,
+    SECRET: process.env.SECRET,
+    LOOPS_API_KEY: process.env.LOOPS_API_KEY,
+    NEXT_PUBLIC_DISABLE_VOTE: process.env.NEXT_PUBLIC_DISABLE_VOTE,
   },
 });

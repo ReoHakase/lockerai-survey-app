@@ -39,7 +39,6 @@ export const Aurora = ({ className, ...props }: AuroraProps): ReactNode => (
         },
         bgSize: '300%, 200%',
         bgPosition: '50% 50%, 50% 50%',
-        animation: 'aurora 180s ease-in-out -70s infinite alternate',
         _light: {
           filter: 'blur(10px)',
         },

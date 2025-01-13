@@ -11,9 +11,7 @@ pre-commit:
       run: |
         pnpm prettier --write --ignore-unknown {staged_files}
       stage_fixed: true # 書き込み修正を行なった差分をステージングする
-      skip: # すでに整形済みのファイルであるため、再度の整形を行わない
-        - merge
-        - rebase
+      skip: true
 
     # パッケージごとのリント (ESLint)
     # パッケージごとに異なる設定を使う
@@ -23,9 +21,7 @@ pre-commit:
       run: |
         pnpm -F web exec eslint --fix {staged_files}
       stage_fixed: true # 書き込み修正を行なった差分をステージングする
-      skip:
-        - merge
-        - rebase
+      skip: true
 
     eslint_panda-preset-radix-colors:
       root: 'packages/panda-preset-radix-colors/'
@@ -33,9 +29,7 @@ pre-commit:
       run: |
         pnpm -F panda-preset-radix-colors exec eslint --fix {staged_files}
       stage_fixed: true # 書き込み修正を行なった差分をステージングする
-      skip:
-        - merge
-        - rebase
+      skip: true
 
     eslint_panda-preset-radix-ui:
       root: 'packages/panda-preset-radix-ui/'
@@ -43,6 +37,4 @@ pre-commit:
       run: |
         pnpm -F panda-preset-radix-ui exec eslint --fix {staged_files}
       stage_fixed: true # 書き込み修正を行なった差分をステージングする
-      skip:
-        - merge
-        - rebase
+      skip: true

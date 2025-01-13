@@ -1,6 +1,6 @@
-import SampleImage from '@public/icon.webp';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Image } from './Image';
+import SampleImage from '@/app/icon.png';
 
 type Story = StoryObj<typeof Image>;
 

@@ -1,3 +1,13 @@
+import createMDX from '@next/mdx';
+
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+  options: {
+    // @ts-expect-error Turbopackではremarkプラグインをパッケージ名で指定する
+    remarkPlugins: [['remark-gfm']],
+  },
+});
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -8,4 +18,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 };
 
-export default nextConfig;
+export default withMDX(nextConfig);
