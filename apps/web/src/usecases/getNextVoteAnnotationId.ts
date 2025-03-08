@@ -1,6 +1,6 @@
 import { eq, and, not } from 'drizzle-orm';
 import { db } from '../db';
-import { annotationTable } from '@/db/schema';
+import { annotationTable, voteTable } from '@/db/schema';
 import type { Email } from '@/states/atoms/email';
 
 const pickOneRandomly = <T>(array: T[]) => {
@@ -8,15 +8,28 @@ const pickOneRandomly = <T>(array: T[]) => {
 };
 
 export const getNextVoteAnnotationId = async ({ email }: { email: Email }) => {
-  const possibleAnnotations = await db
-    .select({ id: annotationTable.id })
-    .from(annotationTable)
-    .where(and(not(eq(annotationTable.email, email)), eq(annotationTable.annotator, 'human')));
-  if (possibleAnnotations.length === 0) {
+  const [targetAnnotations, doneVotes] = await Promise.all([
+    db
+      .select({ id: annotationTable.id })
+      .from(annotationTable)
+      .where(and(not(eq(annotationTable.email, email)), eq(annotationTable.annotator, 'human'))),
+    db.select({ annotation: voteTable.annotation }).from(voteTable).where(eq(voteTable.email, email)),
+  ]);
+
+  if (targetAnnotations.length === 0) {
     return null;
   }
-  const possibleAnnotationIds = possibleAnnotations.map((a) => a.id);
-  console.info('possibleAnnotationIds', possibleAnnotationIds.length);
+
+  const targetAnnotationIdSet = new Set(targetAnnotations.map((a) => a.id));
+  const doneAnnotationIdSet = new Set(doneVotes.map((a) => a.annotation));
+
+  const possibleAnnotationIdSet = targetAnnotationIdSet.difference(doneAnnotationIdSet);
+  const possibleAnnotationIds = Array.from(possibleAnnotationIdSet);
+
+  if (possibleAnnotationIds.length === 0) {
+    return null;
+  }
+
   const nextAnnotationId = pickOneRandomly(possibleAnnotationIds);
   return nextAnnotationId;
 };
