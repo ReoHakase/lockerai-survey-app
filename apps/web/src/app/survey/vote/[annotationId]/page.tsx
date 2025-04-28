@@ -112,6 +112,18 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
           </span>
         </label>
         <Textarea id="inquiry" name="inquiry" placeholder="ここに説明文章を入力してください" value={inquiry} readOnly />
+        <p
+          aria-hidden
+          className={css({
+            alignSelf: 'end',
+            textAlign: 'right',
+            fontWeight: 'bold',
+            fontSize: 'sm',
+            color: 'keyplate.3',
+          })}
+        >
+          {annotation.annotator === 'human' ? '人間による手書きデータ' : `LLMによる合成データ (${annotation.quality})`}
+        </p>
         <label
           htmlFor="latency"
           className={css({
