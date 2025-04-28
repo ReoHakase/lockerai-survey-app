@@ -1,4 +1,4 @@
-import { eq, and, not } from 'drizzle-orm';
+import { eq, and, not, or } from 'drizzle-orm';
 import { db } from '../db';
 import { annotationTable, voteTable } from '@/db/schema';
 import type { Email } from '@/states/atoms/email';
@@ -12,7 +12,12 @@ export const getNextVoteAnnotationId = async ({ email }: { email: Email }) => {
     db
       .select({ id: annotationTable.id })
       .from(annotationTable)
-      .where(and(not(eq(annotationTable.email, email)), eq(annotationTable.annotator, 'human'))),
+      .where(
+        and(
+          or(not(eq(annotationTable.email, email)), eq(annotationTable.annotator, 'data-augmentation')),
+          not(eq(annotationTable.annotator, 'ai')),
+        ),
+      ),
     db.select({ annotation: voteTable.annotation }).from(voteTable).where(eq(voteTable.email, email)),
   ]);
 
