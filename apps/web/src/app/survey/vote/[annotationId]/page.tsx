@@ -10,6 +10,7 @@ import { VoteForm } from '@/features/navigation/components/VoteForm/VoteForm';
 import { createVote } from '@/usecases/createVote';
 import { getAiAnnotationByImageId } from '@/usecases/getAiAnnotationByImageId';
 import { getAnnotation } from '@/usecases/getAnnotation';
+import { getNextVoteAnnotationId } from '@/usecases/getNextVoteAnnotationId';
 import { css } from 'styled-system/css';
 
 type VotePageProps = {
@@ -37,7 +38,9 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
     const endsAt = new Date();
     const duration = (endsAt.getTime() - startsAt.getTime()) / 1000;
     await createVote({ email, annotation: annotationId, duration, authorization });
-    redirect('/');
+
+    const nextAnnotationId = await getNextVoteAnnotationId({ email });
+    redirect(`/survey/vote/${nextAnnotationId}`);
   };
 
   return (
