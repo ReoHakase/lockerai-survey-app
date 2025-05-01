@@ -17,7 +17,7 @@ export async function GET() {
 
   const votes = await db
     .select({
-      annotation_id: voteTable.id,
+      annotation_id: annotationTable.id,
       image_id: annotationTable.imageId,
       label: annotationTable.label,
       quality: annotationTable.quality,
