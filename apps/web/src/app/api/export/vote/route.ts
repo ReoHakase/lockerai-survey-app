@@ -1,8 +1,8 @@
-import { desc, eq } from 'drizzle-orm';
+import { desc } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { db } from '@/db';
-import { voteTable, annotationTable } from '@/db/schema';
+import { voteTable } from '@/db/schema';
 import { env } from '@/env';
 
 export const dynamic = 'force-dynamic';
@@ -13,10 +13,8 @@ export async function GET() {
   if (secret !== env.SECRET) {
     notFound();
   }
-  const votes = await db
-    .select({ vote: voteTable, annotation: annotationTable })
-    .from(voteTable)
-    .innerJoin(annotationTable, eq(voteTable.annotation, annotationTable.id))
-    .orderBy(desc(voteTable.createdAt));
+  const votes = await db.query.voteTable.findMany({
+    orderBy: [desc(voteTable.createdAt)],
+  });
   return Response.json(votes);
 }
