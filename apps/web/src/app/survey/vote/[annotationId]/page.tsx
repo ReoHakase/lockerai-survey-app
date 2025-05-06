@@ -39,7 +39,7 @@ const VotePage = async ({ params }: VotePageProps): Promise<ReactElement> => {
     const duration = (endsAt.getTime() - startsAt.getTime()) / 1000;
     await createVote({ email, annotation: annotationId, duration, authorization });
 
-    const nextAnnotationId = await getNextVoteAnnotationId({ email });
+    const nextAnnotationId = await getNextVoteAnnotationId();
     redirect(`/survey/vote/${nextAnnotationId}`);
   };
 

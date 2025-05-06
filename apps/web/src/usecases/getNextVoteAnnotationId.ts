@@ -1,19 +1,18 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { annotationTable, voteTable } from '@/db/schema';
-import type { Email } from '@/states/atoms/email';
 
 const pickOneRandomly = <T>(array: T[]) => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-export const getNextVoteAnnotationId = async ({ email }: { email: Email }) => {
+export const getNextVoteAnnotationId = async () => {
   const [targetAnnotations, doneVotes] = await Promise.all([
     db
       .select({ id: annotationTable.id })
       .from(annotationTable)
       .where(eq(annotationTable.annotator, 'data-augmentation')),
-    db.select({ annotation: voteTable.annotation }).from(voteTable).where(eq(voteTable.email, email)),
+    db.select({ annotation: voteTable.annotation }).from(voteTable),
   ]);
 
   if (targetAnnotations.length === 0) {
